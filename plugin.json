@@ -1,0 +1,11 @@
+{
+  "id": "TSPTravelOptimizer",
+  "name": "TSP Travel Optimizer",
+  "version": "0.1.0",
+  "author": "Ryan McKenna",
+  "api": 5,
+  "main": "TSPTravelOptimizer",
+  "metadata": {
+    "type": "postprocessing"
+  }
+}
