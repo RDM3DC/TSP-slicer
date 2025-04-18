@@ -294,4 +294,3 @@ Then inside the second pass, compute radius R = 1/κ for your arc, feed κ into 
 
 ---
 
-Feel free to ping me once you hit the next hurdle—whether that’s swapping in RealignR‑style adaptive optimisation, folding in Adaptive π, or building a dashboard to show travel‑time savings live.  Happy hacking and faster printing!
