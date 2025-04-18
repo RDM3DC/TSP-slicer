@@ -1,0 +1,3 @@
+def adaptive_pi(curvature):
+    # return π_eff based on curvature κ
+    return math.pi * (1 + 0.05 * curvature)   # placeholder
