@@ -505,7 +505,5 @@ G‑matrices persist per model for blister‑fast re‑slicing.
 The RealignR meta‑controller keeps α/μ near the sweet spot automatically.
 
 
-Add GUI check‑boxes later if you want end‑users to toggle each feature; otherwise enjoy the self‑optimising slicer pipeline right away.
-
-Ping me once you’re ready for the adaptive‑π arc rewrite pass or if you hit any weird edge‑cases (e.g., multi‑extruder tool‑change code). Happy printing at warp speed!
+Add GUI check‑boxes later if you want end‑users to toggle each feature; otherwise enjoy the 
 
