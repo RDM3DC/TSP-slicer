@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+# prusa_tsp_pp.py  --  ML‑free ARP travel optimiser
+import sys, re, shutil, os
+from pathlib import Path
+
+from tsp_opt import solve_tsp
+
+TRAVEL = re.compile(r"G0 X([-+]?[0-9]*\.?[0-9]+) Y([-+]?[0-9]*\.?[0-9]+).*?F")
+
+def process_layer(lines):
+    coords, idx = [], []
+    for i, l in enumerate(lines):
+        m = TRAVEL.match(l)
+        if m:
+            coords.append((float(m.group(1)), float(m.group(2))))
+            idx.append(i)
+    if len(coords) <= 2:
+        return lines
+
+    order = solve_tsp(coords)
+    new_layer = lines[:]
+    for rank, old_pos in enumerate(order):
+        new_layer[idx[rank]] = lines[idx[old_pos]]
+    return new_layer
+
+def optimise(infile):
+    txt = Path(infile).read_text().splitlines(True)
+    out, layer = [], []
+    for l in txt:
+        if ";LAYER:" in l and layer:
+            out.extend(process_layer(layer)); layer=[]
+        layer.append(l)
+    out.extend(process_layer(layer))
+    tmp = infile + ".tmp"
+    Path(tmp).write_text("".join(out))
+    shutil.move(tmp, infile)
+
+if __name__ == "__main__":
+    optimise(sys.argv[1])
