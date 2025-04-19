@@ -1,0 +1,49 @@
+# Minimal, ML‑free Cura post‑processor
+from UM.PluginRegistry import PluginObject
+from UM.Logger import Logger
+import re
+
+from .tsp_opt import solve_tsp
+
+_TRAVEL = re.compile(r"G0 X([-+]?[0-9]*\.?[0-9]+) Y([-+]?[0-9]*\.?[0-9]+).*?F")
+
+class TSPPostProcessor(PluginObject):
+    def __init__(self, app):
+        super().__init__()
+        self._app = app
+
+    # ------------ helpers -------------
+    def _parse_travels(self, layer):
+        coords, idx = [], []
+        for i, line in enumerate(layer):
+            m = _TRAVEL.match(line)
+            if m:
+                coords.append((float(m.group(1)), float(m.group(2))))
+                idx.append(i)
+        return coords, idx
+
+    def _reorder(self, lines, idx, order):
+        new_layer = lines[:]
+        for rank, old_pos in enumerate(order):
+            new_layer[idx[rank]] = lines[idx[old_pos]]
+        return new_layer
+
+    # ------------ Cura hook -----------
+    def perform(self, data):
+        out, layer = [], []
+        for line in data.splitlines(True):
+            if ";LAYER:" in line and layer:
+                out.extend(self._process_layer(layer))
+                layer = []
+            layer.append(line)
+        out.extend(self._process_layer(layer))
+        return "".join(out)
+
+    def _process_layer(self, layer_lines):
+        coords, idx = self._parse_travels(layer_lines)
+        if len(coords) <= 2:
+            return layer_lines
+
+        order = solve_tsp(coords)  # ARP underneath
+        Logger.log("d", f"ARP reordered {len(coords)} travels")
+        return self._reorder(layer_lines, idx, order)
