@@ -1,0 +1,4 @@
+from .TSPPostProcessor import TSPPostProcessor
+
+def register(app):
+    return {"postprocessor": TSPPostProcessor(app)}
