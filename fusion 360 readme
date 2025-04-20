@@ -1,0 +1,20 @@
+Option A — Fusion 360 / slicer plug‑in 💾
+
+Building an add‑in/post‑processor that exports G‑code with adaptive π arcs is the fastest way to (1) prove value, (2) collect testimonials, and (3) feed back into your ARP/realignr story.
+
+Why it’s attractive
+
+MVP outline (Fusion 360 CAM post‑processor)
+
+1. Inherit from adsk.cam.PostProcessor.
+2. During toolpath export, intercept linear moves:
+      for (x0,y0)→(x1,y1):  κ = localCurvature(...)
+      if κ > κ_thresh:
+          π_eff = π * (1 + β*κ^2)        # your adaptive π(κ)
+          emit G2/G3 with center, radius computed via π_eff
+      else:
+          emit G1
+3. Add a UI checkbox “☑ Adaptive π arcs”.
+4. Provide tolerance sliders (chord error, κ_thresh, β).
+
+(Happy to flesh out real code once you’re ready to paste it into Fusion.)
