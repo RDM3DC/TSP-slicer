@@ -1,8 +1,6 @@
 Option A — Fusion 360 / slicer plug‑in 💾
 
-Building an add‑in/post‑processor that exports G‑code with adaptive π arcs is the fastest way to (1) prove value, (2) collect testimonials, and (3) feed back into your ARP/realignr story.
-
-Why it’s attractive
+Building an add‑in/post‑processor that exports G‑code with adaptive π arcs 
 
 MVP outline (Fusion 360 CAM post‑processor)
 
