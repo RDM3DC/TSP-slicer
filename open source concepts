@@ -6,8 +6,8 @@ A drop‑in enhancement for any 32‑bit 3‑D‑printer / CNC firmware that can
 
 > Goal: Dynamically trim coil current so the stepper/servo uses just enough torque for the present load, instead of a fixed safety margin.
 Method: Treat driver‑gain G (mA per DAC step) as an adaptive conductance that follows the classic ARP law
-
-\dot G ;=; \underbrace{\alpha,|I_{\text{phase}}|}{\text{reinforce when heavily loaded}} ;-; \underbrace{\mu,G}{\text{decay back toward baseline}}  where  is the instantaneous coil current reported by the driver.
+$
+\dot G ;=; \underbrace{\alpha,|I_{\text{phase}}|}{\text{reinforce when heavily loaded}} ;-; \underbrace{\mu,G}{\text{decay back toward baseline}} $ where  is the instantaneous coil current reported by the driver.
 
 
 
