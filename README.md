@@ -1,5 +1,11 @@
 visual studio code with github copilot agent mode, you can run any code in minutes.more or less
 
+## ChatGPT Assistant
+
+[![Open in ChatGPT](https://img.shields.io/badge/ChatGPT-TSP_Slicer_Assistant-blue?logo=openai)](https://chatgpt.com/g/g-684162abedd88191afc2026bb57dc8f1-tsp-slicer-assistant)
+
+Interact with the project using the **TSP Slicer Assistant** on ChatGPT. You will need an OpenAI account to use this assistant.
+
 
 Below is a practical “starter kit” that will get you from zero‑to‑working proof‑of‑concept for **path‑optimised printing** in both **Cura** and **PrusaSlicer**.  We’ll treat the two slicers separately (their plug‑in systems are very different), but keep the *core* path‑optimiser—a lightweight TSP solver written in Python—shared between them.  
 After that I show where your **Adaptive π** / **adaptive‑BPi** curvature tricks can slot in once the travel order is already minimised.
