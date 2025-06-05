@@ -1,4 +1,4 @@
-visual studio code with github copilot agent mode, you can run any code in minutes.more or less
+TSP-based travel optimizer for 3D-printer slicers.
 
 ## ChatGPT Assistant
 
@@ -9,6 +9,16 @@ Interact with the project using the **TSP Slicer Assistant** on ChatGPT. You wil
 
 Below is a practical “starter kit” that will get you from zero‑to‑working proof‑of‑concept for **path‑optimised printing** in both **Cura** and **PrusaSlicer**.  We’ll treat the two slicers separately (their plug‑in systems are very different), but keep the *core* path‑optimiser—a lightweight TSP solver written in Python—shared between them.  
 After that I show where your **Adaptive π** / **adaptive‑BPi** curvature tricks can slot in once the travel order is already minimised.
+## Setup
+
+Install the OR-Tools package to use the built-in routing solver:
+
+```bash
+pip install ortools
+```
+
+The OR-Tools solver handles all TSP searches; the rest of this repository just plugs it into Cura and PrusaSlicer.
+
 
 ---
 
