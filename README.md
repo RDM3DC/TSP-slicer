@@ -308,3 +308,15 @@ Then inside the second pass, compute radius R = 1/κ for your arc, feed κ into 
 ---
 
 
+
+## Example scripts
+
+Prototype scripts and notes are kept under `examples/`:
+- `best_tsp_solver.py`
+- `newpost_proc`
+- `newinit`
+- `newjson`
+- `newarp_opt`
+- `Newfile`
+- `open source concepts`
+- `fusion 360 readme`
