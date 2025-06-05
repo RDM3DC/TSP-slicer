@@ -39,6 +39,7 @@ def solve_tsp_arp(coords, *, alpha=0.01, mu=0.001,
     best_L = sum(_dist(coords[order[i]],
                        coords[order[(i + 1) % n]])
                  for i in range(n))
+    L_curr = best_L
 
     T = temp0
     for k in range(iters):
@@ -52,6 +53,7 @@ def solve_tsp_arp(coords, *, alpha=0.01, mu=0.001,
                          coords[lst[(idx + 1) % n]])
         dL = (seg(i - 1, cand) + seg(j, cand)) - \
              (seg(i - 1, order) + seg(j, order))
+        cand_L = L_curr + dL
 
         # ----- ARP reinforcement on candidate path -----
         for a, b in zip(cand, cand[1:] + cand[:1]):
@@ -62,8 +64,10 @@ def solve_tsp_arp(coords, *, alpha=0.01, mu=0.001,
         # ----- Metropolis accept -----
         if dL < 0 or random.random() < math.exp(-dL / max(T, 1e-12)):
             order = cand
-            best_L += dL
-            best = order[:]
+            L_curr = cand_L
+            if cand_L < best_L:
+                best_L = cand_L
+                best = order[:]
 
         # cool every n iterations
         if (k + 1) % n == 0:
