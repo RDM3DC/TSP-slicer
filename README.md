@@ -67,6 +67,8 @@ def solve_tsp(coords, start_index=0):
 ```
 
 *You can hot‑swap in Concorde, LK‑H, or RealignR‑style ARP‑optimizer later; this keeps day‑one dependencies simple.*
+An experimental solver incorporating curve memory is available in `curve_memory_tsp.py`. It uses a greedy search and penalises sharp turns and erratic motion.
+
 
 ---
 
