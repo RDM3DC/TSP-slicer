@@ -24,6 +24,8 @@ So the workflow will be:
 3. **Rewrite the G‑code** with the new order.  
 4. *(Optional next phase)* Replace linear hops with **Adaptive π arcs/splines** (G2/G3/G5) to get smoother motion.
 
+The main solver for this project lives in `tsp_opt.py` at the repository root. The file `examples/best_tsp_solver.py` is only a small octagon demonstration for visual reference.
+
 ---
 
 ## 1 .  Shared core – `tsp_opt.py`
