@@ -303,7 +303,4 @@ Then inside the second pass, compute radius R = 1/κ for your arc, feed κ into 
 
 ---
 
- Imagine dipping your finger into the head of a fresh pint of beer. The foam recedes, forming a perfect little ring around your finger. That ring isn’t made with fixed segments or hard-coded arcs—it’s smooth, dynamic, and adapts naturally to your motion.
-
-That’s adaptive π: we’re not forcing a circle with rigid math (like traditional G-code using static π), we’re letting the curve form organically, guided by the geometry—just like foam yields to your fingertip.
 
