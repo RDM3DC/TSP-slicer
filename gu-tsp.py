@@ -1,32 +1,55 @@
 import numpy as np
+import matplotlib.pyplot as plt
+from scipy.spatial import cKDTree
 
-# --- 1. model wrapper -------------------------------------------------
-def run_emt_sim(Kp, Ki, line_model):
-    """
-    Black-box time-domain simulation of the entire feeder.
-    Returns aggregate cost: J = w1*settling + w2*overshoot + w3*RMS_error + w4*quench_risk
-    """
-    # call out to PSCAD/EMTP, Modelica, or your home-grown solver
-    # NOTE: make the wrapper GPU-friendly if the solver is PyTorch-based
-    return J
+def gaussian_force(cities, pts, sigma2):
+    diff = pts[:, None, :] - cities[None, :, :]
+    r2   = (diff**2).sum(-1, keepdims=True)
+    w    = np.exp(-r2 / (2 * sigma2)) / sigma2
+    return (-w * diff).sum(1)           # shape (N,2)
 
-# --- 2. elastic gradient descent -------------------------------------
-def elastic_tune(Kp, Ki, field_grad, steps=300, alpha=0.4, beta=0.1, decay=0.995):
-    N = len(Kp)
+def two_opt(path):
+    def cross(a,b,c,d):
+        return (np.cross(b-a, c-a)*np.cross(b-a, d-a) < 0 and
+                np.cross(d-c, a-c)*np.cross(d-c, b-c) < 0)
+
+    n = len(path)
+    improved = True
+    while improved:
+        improved = False
+        for i in range(n-3):
+            for j in range(i+2, n-1):
+                if cross(path[i], path[i+1], path[j], path[j+1]):
+                    path[i+1:j+1] = path[i+1:j+1][::-1]
+                    improved = True
+                    break
+            if improved: break
+    return path
+
+def elastic_tsp(cities, steps=300, σ0=5.0, α0=0.5, β0=0.2,
+                decay=0.995, two_opt_every=25):
+    n = len(cities)
+    curve = cities + np.random.normal(0, 0.1, cities.shape)
+    σ2, α, β = σ0**2, α0, β0
+
     for t in range(steps):
-        gKp, gKi = field_grad(Kp, Ki)         # shape (N,) each
-        lapKp = np.roll(Kp,1)+np.roll(Kp,-1)-2*Kp    # Laplacian smooth term
-        lapKi = np.roll(Ki,1)+np.roll(Ki,-1)-2*Ki
-        Kp -= alpha*gKp + beta*lapKp
-        Ki -= alpha*gKi + beta*lapKi
-        alpha*=decay;  beta*=decay*0.9
-    return Kp, Ki
+        tree = cKDTree(curve)
+        nb   = tree.query(curve, k=8)[1]          # 7 neighbours + self
+        lap  = curve[nb[:,1:]].mean(1) - curve    # discrete Laplacian
+        force = gaussian_force(cities, curve, σ2)
+        curve += α*force + β*lap
 
-# --- 3. automatic gradient via finite diff (replace with autograd if possible)
-def field_grad(Kp, Ki, h=1e-3):
-    base = run_emt_sim(Kp, Ki, line_model)
-    gKp = np.zeros_like(Kp);  gKi = np.zeros_like(Ki)
-    for i in range(len(Kp)):
-        Kp[i] += h;  gKp[i] = (run_emt_sim(Kp,Ki,line_model)-base)/h;  Kp[i]-=h
-        Ki[i] += h;  gKi[i] = (run_emt_sim(Kp,Ki,line_model)-base)/h;  Ki[i]-=h
-    return gKp, gKi
+        if two_opt_every and t % two_opt_every == 0:
+            curve = two_opt(curve)
+
+        σ2 *= decay;  α *= decay;  β *= decay*0.9
+    return curve
+
+# demo -------------------------------------------------------------
+if __name__ == "__main__":
+    n = 200
+    np.random.seed(0)
+    cities = np.random.rand(n,2)*100
+    tour   = elastic_tsp(cities)
+    plt.plot(*tour.T, '-o', ms=4);  plt.scatter(*cities.T, c='red')
+    plt.show()
