@@ -1,5 +1,7 @@
 visual studio code with github copilot agent mode, you can run any code in minutes.more or less
 
+I think the hybrid tsp solver is the best 1.
+
 ## ChatGPT Assistant
 
 Interact with the project using the **TSP Slicer Assistant** on ChatGPT. You will need an OpenAI account to use this assistant.
