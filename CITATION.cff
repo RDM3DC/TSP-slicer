@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "NH-ARP: Practical Linear-Time Heuristics for NP via ARP Dynamics & Supermartingale Bounds"
+message: "If you use NH-ARP in your work, please cite our preprint."
+authors:
+  - family-names: "<YourLastName>"
+    given-names: "<YourFirstName>"
+  - family-names: "…"
+date-released: "2025-08-12"
+repository-code: "https://github.com/<org>/nh-arp"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.XXXXXXX"
